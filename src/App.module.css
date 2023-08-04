@@ -1,0 +1,29 @@
+.app {
+    margin: 50px;
+}
+input{
+    display: block;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+}
+button{
+    width: 190px;
+    display: block;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.error{
+    color: brown;
+}
+.disabled{
+    background-color: brown;
+    cursor: default;
+}
+button:focus{
+    background-color: green;
+}
