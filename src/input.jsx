@@ -2,7 +2,7 @@ import styles from './app.module.css';
 import { useState } from 'react';
 
 export const Input = (props) => {
-	const [error, setError] = useState(null);
+	const [error, setError] = useState(false);
 	const onChange = ({target}) => {
 		props.onChange(target.value);
 		if (props.regExp.test(target.value)) {
@@ -11,7 +11,9 @@ export const Input = (props) => {
 		}
 	}
 	const onBlur = ({target}) => {
-		if (!props.regExp.test(target.value)) setError(props.errorText)
+		if (!props.regExp.test(target.value)) {
+			setError(true)
+		}
 	}
 	return (
 		<>

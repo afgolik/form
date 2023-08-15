@@ -6,7 +6,7 @@ import { sendData } from './utils/submitting-form';
 
 const initialValidFields = {
 	email: true,
-	// password: true,
+	password: true,
 	// repeatPassword: true,
 };
 
@@ -28,26 +28,15 @@ export const App = () => {
 				return true;
 			}
 		}
-		submitButtonRef.current.focus();
+		// submitButtonRef.current.focus();
 		return false;
 	};
 	const onEmailChange = (value) => {
 		setEmail(value);
 	};
-	// const onEmailBlur = ({ target }) => {
-	// 	if (!validationEmail.test(target.value)) {
-	// 		setEmailError(
-	// 			'Неверный формат почты. Почта должна содержать символ @ и название домена. Пример правильной почты: user@email.ru',
-	// 		);
-	// 	}
-	// };
-	// const onPasswordChange = ({ target }) => {
-	// 	if (validationPassword.test(target.value)) {
-	// 		setInvalidFields({ ...inValidFields, password: false });
-	// 		setPasswordError(null);
-	// 	}
-	// 	setPassword(target.value);
-	// };
+	const onPasswordChange = (value) => {
+		setPassword(value);
+	};
 	// const onPasswordBlur = ({ target }) => {
 	// 	if (!validationPassword.test(target.value)) {
 	// 		setInvalidFields({ ...inValidFields, password: true });
@@ -104,18 +93,17 @@ export const App = () => {
 					inValidFields={inValidFields}
 					setInvalidFields={setInvalidFields}
 				/>
-				{/*<Input*/}
-				{/*	type='password'*/}
-				{/*	name='password'*/}
-				{/*	value={password}*/}
-				{/*	placeholder='Придумайте пароль'*/}
-				{/*regExp={emailValidate}*/}
-				{/*	errorText='Пароль должен содержать минимум 8 символов: строчные и прописные латинские буквы, цифры. Пробелы изпользовать запрещено'*/}
-				{/*	onChange={onPasswordChange}*/}
-				{/*	onBlur={onPasswordBlur}*/}
-				{/*	inValidFields={inValidFields}*/}
-				{/*	setInvalidFields={setInvalidFields}*/}
-				{/*/>*/}
+				<Input
+					type='password'
+					name='password'
+					value={password}
+					placeholder='Придумайте пароль'
+					regExp={validationPassword}
+					errorText='Пароль должен содержать минимум 8 символов: строчные и прописные латинские буквы, цифры. Пробелы изпользовать запрещено'
+					onChange={onPasswordChange}
+					inValidFields={inValidFields}
+					setInvalidFields={setInvalidFields}
+				/>
 				{/*<Input*/}
 				{/*	type='password'*/}
 				{/*	name='repeatPassword'*/}
