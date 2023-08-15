@@ -1,5 +1,7 @@
-import styles from './App.module.css';
+import styles from './app.module.css';
 import { useState, useRef } from 'react';
+import {validationEmail, validationPassword} from "./validations";
+import {Input} from "./input";
 
 const initialValidFields = {
 	email: true,
@@ -32,27 +34,27 @@ export const App = () => {
 	};
 	const onEmailChange = ({ target }) => {
 		setEmail(target.value);
-		if (/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(target.value)) {
+		if (validationEmail.test(target.value)) {
 			setInvalidFields({ ...inValidFields, email: false });
 			setEmailError(null);
 		}
 	};
 	const onEmailBlur = ({ target }) => {
-		if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(target.value)) {
+		if (!validationEmail.test(target.value)) {
 			setEmailError(
 				'Неверный формат почты. Почта должна содержать символ @ и название домена. Пример правильной почты: user@email.ru',
 			);
 		}
 	};
 	const onPasswordChange = ({ target }) => {
-		if (/^(?=^.{8,}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(target.value)) {
+		if (validationPassword.test(target.value)) {
 			setInvalidFields({ ...inValidFields, password: false });
 			setPasswordError(null);
 		}
 		setPassword(target.value);
 	};
 	const onPasswordBlur = ({ target }) => {
-		if (!/^(?=^.{8,}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(target.value)) {
+		if (!validationPassword.test(target.value)) {
 			setInvalidFields({ ...inValidFields, password: true });
 			setPasswordError(
 				'Пароль должен содержать минимум 8 символов: строчные и прописные латинские буквы, цифры. Пробелы изпользовать запрещено',
@@ -96,7 +98,7 @@ export const App = () => {
 	return (
 		<div className={styles.app}>
 			<form onSubmit={onSubmit}>
-				<input
+				<Input
 					type='email'
 					name='email'
 					value={email}
@@ -104,8 +106,8 @@ export const App = () => {
 					onChange={onEmailChange}
 					onBlur={onEmailBlur}
 				/>
-				{emailError && <div className={styles.error}>{emailError}</div>}
-				<input
+
+				<Input
 					type='password'
 					name='password'
 					value={password}
@@ -114,7 +116,7 @@ export const App = () => {
 					onBlur={onPasswordBlur}
 				/>
 				{passwordError && <div className={styles.error}>{passwordError}</div>}
-				<input
+				<Input
 					type='password'
 					name='repeatPassword'
 					value={repeatPassword}
