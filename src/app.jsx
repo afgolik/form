@@ -1,16 +1,15 @@
 import styles from './app.module.css';
 import { useState, useRef } from 'react';
-import {validationEmail, validationPassword} from "./validations";
+import {validationEmail, validationPassword} from "./utils/validations";
 import {Input} from "./input";
+import {sendData} from "./utils/submitting-form";
 
 const initialValidFields = {
 	email: true,
 	password: true,
 	repeatPassword: true,
 };
-const sendData = (formData) => {
-	console.log(formData);
-};
+
 export const App = () => {
 	const [inValidFields, setInvalidFields] = useState(initialValidFields);
 	const [email, setEmail] = useState('');
