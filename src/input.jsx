@@ -5,13 +5,16 @@ export const Input = (props) => {
 	const [error, setError] = useState(false);
 	const onChange = ({target}) => {
 		props.onChange(target.value);
-		if (props.regExp.test(target.value)) {
+
+		if (props.regExp && props.regExp.test(target.value)) {
 			props.setInvalidFields({ ...props.inValidFields, [props.name]: false });
 			setError(null);
 		}
 	}
 	const onBlur = ({target}) => {
-		if (!props.regExp.test(target.value)) {
+		if (props.regExp && !props.regExp.test(target.value)) {
+			setError(true)
+		} else if (props.validate && !props.validate()){
 			setError(true)
 		}
 	}

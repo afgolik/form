@@ -7,7 +7,7 @@ import { sendData } from './utils/submitting-form';
 const initialValidFields = {
 	email: true,
 	password: true,
-	// repeatPassword: true,
+	repeatPassword: true,
 };
 
 export const App = () => {
@@ -15,10 +15,7 @@ export const App = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [repeatPassword, setRepeatPassword] = useState('');
-
-	const [emailError, setEmailError] = useState(null);
-	const [passwordError, setPasswordError] = useState(null);
-	const [repeatPasswordError, setRepeatPasswordError] = useState(null);
+	const [repeatPasswordError, setRepeatPasswordError] = useState(false);
 
 	const submitButtonRef = useRef(null);
 
@@ -36,24 +33,9 @@ export const App = () => {
 	};
 	const onPasswordChange = (value) => {
 		setPassword(value);
+		if (repeatPassword) setRepeatPasswordError(repeatPassword !== value);
 	};
-	// const onPasswordBlur = ({ target }) => {
-	// 	if (!validationPassword.test(target.value)) {
-	// 		setInvalidFields({ ...inValidFields, password: true });
-	// 		setPasswordError(
-	// 			'Пароль должен содержать минимум 8 символов: строчные и прописные латинские буквы, цифры. Пробелы изпользовать запрещено',
-	// 		);
-	// 	}
-	// 	if (repeatPassword) {
-	// 		const obj = {
-	// 			target: {
-	// 				value: repeatPassword,
-	// 			},
-	// 		};
-	// 		onRepeatPasswordChange(obj);
-	// 		onRepeatPasswordBlur(obj);
-	// 	}
-	// };
+
 	// const onRepeatPasswordChange = ({ target }) => {
 	// 	setRepeatPassword(target.value);
 	// 	if (target.value === password) {
@@ -61,6 +43,12 @@ export const App = () => {
 	// 		setRepeatPasswordError(null);
 	// 	}
 	// };
+	const onRepeatPasswordChange = (value) => {
+		setRepeatPassword(value);
+	};
+	const validateRepeatPassword = () => {
+		return repeatPassword === password;
+	};
 	// const onRepeatPasswordBlur = ({ target }) => {
 	// 	if (target.value !== password) {
 	// 		setInvalidFields({ ...inValidFields, repeatPassword: true });
@@ -94,7 +82,7 @@ export const App = () => {
 					setInvalidFields={setInvalidFields}
 				/>
 				<Input
-					type='password'
+					type='text'
 					name='password'
 					value={password}
 					placeholder='Придумайте пароль'
@@ -104,18 +92,18 @@ export const App = () => {
 					inValidFields={inValidFields}
 					setInvalidFields={setInvalidFields}
 				/>
-				{/*<Input*/}
-				{/*	type='password'*/}
-				{/*	name='repeatPassword'*/}
-				{/*	value={repeatPassword}*/}
-				{/*	placeholder='Повторите пароль'*/}
-				{/*regExp={emailValidate}*/}
-				{/*	errorText='Пароли не совпадают'*/}
-				{/*	onChange={onRepeatPasswordChange}*/}
-				{/*	onBlur={onRepeatPasswordBlur}*/}
-				{/*	inValidFields={inValidFields}*/}
-				{/*	setInvalidFields={setInvalidFields}*/}
-				{/*/>*/}
+				<Input
+					type='text'
+					name='repeatPassword'
+					value={repeatPassword}
+					placeholder='Повторите пароль'
+					errorText='Пароли не совпадают'
+					onChange={onRepeatPasswordChange}
+					inValidFields={inValidFields}
+					setInvalidFields={setInvalidFields}
+					validate={validateRepeatPassword}
+					isError={repeatPasswordError}
+				/>
 				<button
 					type='submit'
 					ref={submitButtonRef}
