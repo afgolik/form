@@ -1,6 +1,9 @@
 import styles from './App.module.css';
-import { useState, useRef } from 'react';
+import {useState, useRef, useEffect} from 'react';
+import { Input } from './input';
 
+const emailValidate = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+const passwordValidate = /^(?=^.{8,}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/;
 const initialValidFields = {
 	email: true,
 	password: true,
@@ -14,10 +17,7 @@ export const App = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [repeatPassword, setRepeatPassword] = useState('');
-
-	const [emailError, setEmailError] = useState(null);
-	const [passwordError, setPasswordError] = useState(null);
-	const [repeatPasswordError, setRepeatPasswordError] = useState(null);
+	const [repeatPasswordError, setRepeatPasswordError] = useState(false);
 
 	const submitButtonRef = useRef(null);
 
@@ -27,59 +27,22 @@ export const App = () => {
 				return true;
 			}
 		}
-		submitButtonRef.current.focus();
+			// submitButtonRef.current.focus();
 		return false;
 	};
-	const onEmailChange = ({ target }) => {
-		setEmail(target.value);
-		if (/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(target.value)) {
-			setInvalidFields({ ...inValidFields, email: false });
-			setEmailError(null);
-		}
+
+	const onEmailChange = (value) => {
+		setEmail(value);
 	};
-	const onEmailBlur = ({ target }) => {
-		if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(target.value)) {
-			setEmailError(
-				'Неверный формат почты. Почта должна содержать символ @ и название домена. Пример правильной почты: user@email.ru',
-			);
-		}
+	const onPasswordChange = (value) => {
+		setPassword(value);
+		if (repeatPassword) setRepeatPasswordError(repeatPassword !== value);
 	};
-	const onPasswordChange = ({ target }) => {
-		if (/^(?=^.{8,}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(target.value)) {
-			setInvalidFields({ ...inValidFields, password: false });
-			setPasswordError(null);
-		}
-		setPassword(target.value);
+	const onRepeatPasswordChange = (value) => {
+		setRepeatPassword(value);
 	};
-	const onPasswordBlur = ({ target }) => {
-		if (!/^(?=^.{8,}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(target.value)) {
-			setInvalidFields({ ...inValidFields, password: true });
-			setPasswordError(
-				'Пароль должен содержать минимум 8 символов: строчные и прописные латинские буквы, цифры. Пробелы изпользовать запрещено',
-			);
-		}
-		if (repeatPassword) {
-			const obj = {
-				target: {
-					value: repeatPassword,
-				},
-			};
-			onRepeatPasswordChange(obj);
-			onRepeatPasswordBlur(obj);
-		}
-	};
-	const onRepeatPasswordChange = ({ target }) => {
-		setRepeatPassword(target.value);
-		if (target.value === password) {
-			setInvalidFields({ ...inValidFields, repeatPassword: false });
-			setRepeatPasswordError(null);
-		}
-	};
-	const onRepeatPasswordBlur = ({ target }) => {
-		if (target.value !== password) {
-			setInvalidFields({ ...inValidFields, repeatPassword: true });
-			setRepeatPasswordError('Пароли не совпадают');
-		}
+	const validateRepeatPassword = () => {
+		return repeatPassword === password;
 	};
 
 	const onSubmit = (e) => {
@@ -96,35 +59,40 @@ export const App = () => {
 	return (
 		<div className={styles.app}>
 			<form onSubmit={onSubmit}>
-				<input
+				<Input
 					type='email'
 					name='email'
-					value={email}
 					placeholder='Введите email'
 					onChange={onEmailChange}
-					onBlur={onEmailBlur}
+					regExp={emailValidate}
+					value={email}
+					errorText='Неверный формат почты. Почта должна содержать символ @ и название домена. Пример правильной почты: user@email.ru'
+					inValidFields={inValidFields}
+					setInvalidFields={setInvalidFields}
 				/>
-				{emailError && <div className={styles.error}>{emailError}</div>}
-				<input
-					type='password'
+				<Input
+					type='text'
 					name='password'
 					value={password}
 					placeholder='Придумайте пароль'
 					onChange={onPasswordChange}
-					onBlur={onPasswordBlur}
+					regExp={passwordValidate}
+					errorText='Пароль должен содержать минимум 8 символов: строчные и прописные латинские буквы, цифры. Пробелы изпользовать запрещено'
+					inValidFields={inValidFields}
+					setInvalidFields={setInvalidFields}
 				/>
-				{passwordError && <div className={styles.error}>{passwordError}</div>}
-				<input
-					type='password'
-					name='repeatPassword'
+				<Input
+					type={'text'}
+					name={'repeatPassword'}
 					value={repeatPassword}
-					placeholder='Повторите пароль'
+					placeholder={'Повторите пароль'}
 					onChange={onRepeatPasswordChange}
-					onBlur={onRepeatPasswordBlur}
+					errorText='Пароли не совпадают'
+					validate={validateRepeatPassword}
+					isError={repeatPasswordError}
+					inValidFields={inValidFields}
+					setInvalidFields={setInvalidFields}
 				/>
-				{repeatPasswordError && (
-					<div className={styles.error}>{repeatPasswordError}</div>
-				)}
 				<button
 					type='submit'
 					ref={submitButtonRef}

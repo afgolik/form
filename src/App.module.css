@@ -20,10 +20,13 @@ button{
 .error{
     color: brown;
 }
+button:focus{
+    background-color: green;
+}
 .disabled{
     background-color: brown;
     cursor: default;
 }
-button:focus{
-    background-color: green;
+.disabled:focus {
+    background-color: brown;
 }
