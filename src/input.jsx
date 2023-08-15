@@ -1,8 +1,18 @@
-import styles from "./app.module.css";
-import {useState} from "react";
+import styles from './app.module.css';
+import { useState } from 'react';
+import {validationEmail} from "./utils/validations";
 
 export const Input = (props) => {
-    const [error, setError] = useState(null)
+	const [error, setError] = useState(null);
+	const onChange = ({target}) => {
+		if (validationEmail.test(target.value)) {
+			props.setInvalidFields({ ...props.inValidFields, [props.name]: false });
+			setError(null);
+		}
+	}
+	const onBlur = ({target}) => {
+		if (!validationEmail.test(target.value)) setError(props.errorText)
+	}
 	return (
 		<>
 			<input
@@ -10,10 +20,10 @@ export const Input = (props) => {
 				name={props.name}
 				value={props.value}
 				placeholder={props.placeholder}
-				onChange={props.onChange}
+				onChange={onChange}
 				onBlur={props.onBlur}
 			/>
-            {error && <div className={styles.error}>{error}</div>}
+			{error && <div className={styles.error}>{props.errorText}</div>}
 		</>
 	);
 };

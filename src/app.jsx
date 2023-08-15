@@ -1,13 +1,13 @@
 import styles from './app.module.css';
 import { useState, useRef } from 'react';
-import {validationEmail, validationPassword} from "./utils/validations";
-import {Input} from "./input";
-import {sendData} from "./utils/submitting-form";
+import { validationEmail, validationPassword } from './utils/validations';
+import { Input } from './input';
+import { sendData } from './utils/submitting-form';
 
 const initialValidFields = {
 	email: true,
-	password: true,
-	repeatPassword: true,
+	// password: true,
+	// repeatPassword: true,
 };
 
 export const App = () => {
@@ -33,10 +33,6 @@ export const App = () => {
 	};
 	const onEmailChange = ({ target }) => {
 		setEmail(target.value);
-		if (validationEmail.test(target.value)) {
-			setInvalidFields({ ...inValidFields, email: false });
-			setEmailError(null);
-		}
 	};
 	const onEmailBlur = ({ target }) => {
 		if (!validationEmail.test(target.value)) {
@@ -102,30 +98,34 @@ export const App = () => {
 					name='email'
 					value={email}
 					placeholder='Введите email'
+					errorText='Неверный формат почты. Почта должна содержать символ @ и название домена. Пример правильной почты: user@email.ru'
 					onChange={onEmailChange}
 					onBlur={onEmailBlur}
+					inValidFields={inValidFields}
+					setInvalidFields={setInvalidFields}
 				/>
-
-				<Input
-					type='password'
-					name='password'
-					value={password}
-					placeholder='Придумайте пароль'
-					onChange={onPasswordChange}
-					onBlur={onPasswordBlur}
-				/>
-				{passwordError && <div className={styles.error}>{passwordError}</div>}
-				<Input
-					type='password'
-					name='repeatPassword'
-					value={repeatPassword}
-					placeholder='Повторите пароль'
-					onChange={onRepeatPasswordChange}
-					onBlur={onRepeatPasswordBlur}
-				/>
-				{repeatPasswordError && (
-					<div className={styles.error}>{repeatPasswordError}</div>
-				)}
+				{/*<Input*/}
+				{/*	type='password'*/}
+				{/*	name='password'*/}
+				{/*	value={password}*/}
+				{/*	placeholder='Придумайте пароль'*/}
+				{/*	errorText='Пароль должен содержать минимум 8 символов: строчные и прописные латинские буквы, цифры. Пробелы изпользовать запрещено'*/}
+				{/*	onChange={onPasswordChange}*/}
+				{/*	onBlur={onPasswordBlur}*/}
+				{/*	inValidFields={inValidFields}*/}
+				{/*	setInvalidFields={setInvalidFields}*/}
+				{/*/>*/}
+				{/*<Input*/}
+				{/*	type='password'*/}
+				{/*	name='repeatPassword'*/}
+				{/*	value={repeatPassword}*/}
+				{/*	placeholder='Повторите пароль'*/}
+				{/*	errorText='Пароли не совпадают'*/}
+				{/*	onChange={onRepeatPasswordChange}*/}
+				{/*	onBlur={onRepeatPasswordBlur}*/}
+				{/*	inValidFields={inValidFields}*/}
+				{/*	setInvalidFields={setInvalidFields}*/}
+				{/*/>*/}
 				<button
 					type='submit'
 					ref={submitButtonRef}
