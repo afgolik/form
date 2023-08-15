@@ -31,53 +31,53 @@ export const App = () => {
 		submitButtonRef.current.focus();
 		return false;
 	};
-	const onEmailChange = ({ target }) => {
-		setEmail(target.value);
+	const onEmailChange = (value) => {
+		setEmail(value);
 	};
-	const onEmailBlur = ({ target }) => {
-		if (!validationEmail.test(target.value)) {
-			setEmailError(
-				'Неверный формат почты. Почта должна содержать символ @ и название домена. Пример правильной почты: user@email.ru',
-			);
-		}
-	};
-	const onPasswordChange = ({ target }) => {
-		if (validationPassword.test(target.value)) {
-			setInvalidFields({ ...inValidFields, password: false });
-			setPasswordError(null);
-		}
-		setPassword(target.value);
-	};
-	const onPasswordBlur = ({ target }) => {
-		if (!validationPassword.test(target.value)) {
-			setInvalidFields({ ...inValidFields, password: true });
-			setPasswordError(
-				'Пароль должен содержать минимум 8 символов: строчные и прописные латинские буквы, цифры. Пробелы изпользовать запрещено',
-			);
-		}
-		if (repeatPassword) {
-			const obj = {
-				target: {
-					value: repeatPassword,
-				},
-			};
-			onRepeatPasswordChange(obj);
-			onRepeatPasswordBlur(obj);
-		}
-	};
-	const onRepeatPasswordChange = ({ target }) => {
-		setRepeatPassword(target.value);
-		if (target.value === password) {
-			setInvalidFields({ ...inValidFields, repeatPassword: false });
-			setRepeatPasswordError(null);
-		}
-	};
-	const onRepeatPasswordBlur = ({ target }) => {
-		if (target.value !== password) {
-			setInvalidFields({ ...inValidFields, repeatPassword: true });
-			setRepeatPasswordError('Пароли не совпадают');
-		}
-	};
+	// const onEmailBlur = ({ target }) => {
+	// 	if (!validationEmail.test(target.value)) {
+	// 		setEmailError(
+	// 			'Неверный формат почты. Почта должна содержать символ @ и название домена. Пример правильной почты: user@email.ru',
+	// 		);
+	// 	}
+	// };
+	// const onPasswordChange = ({ target }) => {
+	// 	if (validationPassword.test(target.value)) {
+	// 		setInvalidFields({ ...inValidFields, password: false });
+	// 		setPasswordError(null);
+	// 	}
+	// 	setPassword(target.value);
+	// };
+	// const onPasswordBlur = ({ target }) => {
+	// 	if (!validationPassword.test(target.value)) {
+	// 		setInvalidFields({ ...inValidFields, password: true });
+	// 		setPasswordError(
+	// 			'Пароль должен содержать минимум 8 символов: строчные и прописные латинские буквы, цифры. Пробелы изпользовать запрещено',
+	// 		);
+	// 	}
+	// 	if (repeatPassword) {
+	// 		const obj = {
+	// 			target: {
+	// 				value: repeatPassword,
+	// 			},
+	// 		};
+	// 		onRepeatPasswordChange(obj);
+	// 		onRepeatPasswordBlur(obj);
+	// 	}
+	// };
+	// const onRepeatPasswordChange = ({ target }) => {
+	// 	setRepeatPassword(target.value);
+	// 	if (target.value === password) {
+	// 		setInvalidFields({ ...inValidFields, repeatPassword: false });
+	// 		setRepeatPasswordError(null);
+	// 	}
+	// };
+	// const onRepeatPasswordBlur = ({ target }) => {
+	// 	if (target.value !== password) {
+	// 		setInvalidFields({ ...inValidFields, repeatPassword: true });
+	// 		setRepeatPasswordError('Пароли не совпадают');
+	// 	}
+	// };
 
 	const onSubmit = (e) => {
 		e.preventDefault();
@@ -98,9 +98,9 @@ export const App = () => {
 					name='email'
 					value={email}
 					placeholder='Введите email'
+					regExp={validationEmail}
 					errorText='Неверный формат почты. Почта должна содержать символ @ и название домена. Пример правильной почты: user@email.ru'
 					onChange={onEmailChange}
-					onBlur={onEmailBlur}
 					inValidFields={inValidFields}
 					setInvalidFields={setInvalidFields}
 				/>
@@ -109,6 +109,7 @@ export const App = () => {
 				{/*	name='password'*/}
 				{/*	value={password}*/}
 				{/*	placeholder='Придумайте пароль'*/}
+				{/*regExp={emailValidate}*/}
 				{/*	errorText='Пароль должен содержать минимум 8 символов: строчные и прописные латинские буквы, цифры. Пробелы изпользовать запрещено'*/}
 				{/*	onChange={onPasswordChange}*/}
 				{/*	onBlur={onPasswordBlur}*/}
@@ -120,6 +121,7 @@ export const App = () => {
 				{/*	name='repeatPassword'*/}
 				{/*	value={repeatPassword}*/}
 				{/*	placeholder='Повторите пароль'*/}
+				{/*regExp={emailValidate}*/}
 				{/*	errorText='Пароли не совпадают'*/}
 				{/*	onChange={onRepeatPasswordChange}*/}
 				{/*	onBlur={onRepeatPasswordBlur}*/}
