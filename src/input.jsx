@@ -3,34 +3,29 @@ import { useState } from 'react';
 
 export const Input = (props) => {
 	const [error, setError] = useState(false);
+	const isValid = (value) => {
+		return (
+			(!props.regExp || props.regExp.test(value)) &&
+			(!props.validate || props.validate(value))
+		);
+	};
+	const setInvalidFields = (value) => {
+		props.setInvalidFields({ ...props.inValidFields, [props.name]: value });
+	};
 	const onChange = ({ target }) => {
-		console.log(props.isError)
-		if (
-			(!props.regExp && !props.validate) ||
-			(props.regExp && props.regExp.test(target.value)) ||
-			(props.validate && props.validate(target.value))
-		) {
-			props.setInvalidFields({ ...props.inValidFields, [props.name]: false });
+		if (isValid(target.value)) {
+			setInvalidFields(false);
 			setError(false);
-		} else if (
-			(props.regExp && !props.regExp.test(target.value)) ||
-			(props.validate && !props.validate(target.value))
-		) {
-			props.setInvalidFields({ ...props.inValidFields, [props.name]: true });
+		} else {
+			setInvalidFields(true);
 		}
 		props.onChange(target.value);
 	};
 	const onBlur = ({ target }) => {
-		if (
-			(props.regExp && !props.regExp.test(target.value)) ||
-			(props.validate && !props.validate(target.value))
-		) {
+		if (!isValid(target.value)) {
 			setError(true);
 		}
 	};
-	function isValid(value){
-		return ((!props.regExp || props.regExp.test(value)))
-	}
 	return (
 		<>
 			<input

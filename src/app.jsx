@@ -35,7 +35,7 @@ export const App = () => {
 		setPassword(value);
 		if (repeatPassword) {
 			const error = repeatPassword !== value;
-			setInvalidFields({...inValidFields, repeatPassword: error});
+			setInvalidFields({ ...inValidFields, repeatPassword: error });
 			setRepeatPasswordError(error);
 		}
 	};
@@ -44,7 +44,7 @@ export const App = () => {
 	};
 	const validateRepeatPassword = (value) => {
 		const error = value !== password;
-		setRepeatPasswordError(error)
+		setRepeatPasswordError(error);
 		return !error;
 	};
 	const onSubmit = (e) => {
