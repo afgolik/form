@@ -33,29 +33,20 @@ export const App = () => {
 	};
 	const onPasswordChange = (value) => {
 		setPassword(value);
-		if (repeatPassword) setRepeatPasswordError(repeatPassword !== value);
+		if (repeatPassword) {
+			const error = repeatPassword !== value;
+			setInvalidFields({...inValidFields, repeatPassword: error});
+			setRepeatPasswordError(error);
+		}
 	};
-
-	// const onRepeatPasswordChange = ({ target }) => {
-	// 	setRepeatPassword(target.value);
-	// 	if (target.value === password) {
-	// 		setInvalidFields({ ...inValidFields, repeatPassword: false });
-	// 		setRepeatPasswordError(null);
-	// 	}
-	// };
 	const onRepeatPasswordChange = (value) => {
 		setRepeatPassword(value);
 	};
-	const validateRepeatPassword = () => {
-		return repeatPassword === password;
+	const validateRepeatPassword = (value) => {
+		const error = value !== password;
+		setRepeatPasswordError(error)
+		return !error;
 	};
-	// const onRepeatPasswordBlur = ({ target }) => {
-	// 	if (target.value !== password) {
-	// 		setInvalidFields({ ...inValidFields, repeatPassword: true });
-	// 		setRepeatPasswordError('Пароли не совпадают');
-	// 	}
-	// };
-
 	const onSubmit = (e) => {
 		e.preventDefault();
 		if (!getInValid()) {
@@ -66,7 +57,6 @@ export const App = () => {
 			setInvalidFields(initialValidFields);
 		}
 	};
-
 	return (
 		<div className={styles.app}>
 			<form onSubmit={onSubmit}>
