@@ -29,10 +29,10 @@ export const App = () => {
 	};
 
 	useEffect(() => {
-		if (getInValid) {
+		if (!getInValid()) {
 			submitButtonRef.current.focus();
 		}
-	}, [getInValid]);
+	});
 	const onEmailChange = (value) => {
 		setEmail(value);
 	};
