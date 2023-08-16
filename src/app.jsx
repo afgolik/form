@@ -1,5 +1,5 @@
 import styles from './app.module.css';
-import { useState, useRef } from 'react';
+import {useState, useRef, useEffect} from 'react';
 import { validationEmail, validationPassword } from './utils/validations';
 import { Input } from './input';
 import { sendData } from './utils/submitting-form';
@@ -25,9 +25,14 @@ export const App = () => {
 				return true;
 			}
 		}
-		// submitButtonRef.current.focus();
 		return false;
 	};
+
+	useEffect(() => {
+		if (getInValid()){
+			submitButtonRef.current.focus();
+		}
+	})
 	const onEmailChange = (value) => {
 		setEmail(value);
 	};
